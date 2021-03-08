@@ -10,19 +10,16 @@
 
     <v-main>
       <h1>Teste</h1>
-      <confirmation-box :click-outside="true"></confirmation-box>
     </v-main>
   </v-app>
 </template>
-
 <script>
-import ConfirmationBox from '../src/ConfirmationBox.vue'
 export default {
-  components: { ConfirmationBox },
   name: 'App',
   methods: {
     async openConfirmationBox() {
       let res = await this.$confirmationBox('xxx')
+      console.log(res)
     },
   },
 }

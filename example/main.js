@@ -4,7 +4,7 @@ import vuetify from './plugins/vuetify'
 
 // import ConfirmationBox from '../src/index.js'
 import ConfirmationBox from '../lib/confirmation-box.cjs.js'
-Vue.use(ConfirmationBox)
+Vue.use(ConfirmationBox, vuetify, { clickOutside: { texto: 'a tua prima' } })
 
 Vue.config.productionTip = false
 

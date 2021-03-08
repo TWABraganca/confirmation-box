@@ -33,17 +33,17 @@
   </v-dialog>
 </template>
 <script>
-import Vue from 'vue'
-import { events } from './events.js'
-
-Vue.directive('focus', {
-  inserted: function(el) {
-    el.focus()
-  },
-})
+import { VDialog, VRow, VCol, VIcon, VBtn } from 'vuetify/lib'
 
 export default {
   name: 'ConfirmationBox',
+  components: {
+    VDialog,
+    VRow,
+    VCol,
+    VIcon,
+    VBtn,
+  },
   props: {
     icon: {
       type: String,
@@ -77,14 +77,13 @@ export default {
       errorCallback: () => {},
     }
   },
-  mounted() {
-    if (!document) return
-    events.$on('open', this.open)
-    events.$on('close', () => {
-      this.errorCallback('Confirmation box forcibly closed!')
-    })
-  },
   methods: {
+    setCallback(fn) {
+      this.callback = fn
+    },
+    setErrorCallback(fn) {
+      this.errorCallback = fn
+    },
     resetState() {
       this.dialog = {
         title: this.title,
@@ -101,14 +100,12 @@ export default {
       }
     },
     handleClick(res) {
-      this.callback(res)
       this.isShow = false
+      this.callback(res)
     },
-    open(params, fn1, fn2) {
+    open(params) {
       this.resetState()
       Object.assign(this.dialog, params)
-      this.callback = fn1
-      this.errorCallback = fn2
       this.isShow = true
     },
   },

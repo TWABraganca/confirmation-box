@@ -1,41 +1,46 @@
 import ConfirmationBox from './ConfirmationBox.vue'
-import { events } from './events.js'
 
 export default {
-  install(Vue) {
+  install(Vue, vuetify, options = {}) {
     if (this.installed) {
       return
     }
     this.installed = true
 
-    Vue.component('confirmationBox', ConfirmationBox)
+    this.options = options || {}
+
+    const Ctor = Vue.extend(Object.assign({}, { vuetify }, ConfirmationBox))
 
     const box = (params) => {
+      const component = new Ctor(
+        Object.assign({}, ConfirmationBox, {
+          propsData: Object.assign({}, this.options),
+        })
+      )
+
       if (typeof params === 'string') {
         params = { message: params }
       }
 
       if (typeof params === 'object' && !Array.isArray(params)) {
+        const container =
+          document.querySelector('[data-app=true]') || document.body
+
         return new Promise((resolve, reject) => {
-          events.$emit(
-            'open',
-            params,
-            (response) => {
-              resolve(response)
-            },
-            (error) => {
-              reject(error)
-            }
-          )
+          component.setCallback((response) => {
+            container.removeChild(component.$el)
+            resolve(response)
+          })
+          component.setErrorCallback((error) => {
+            container.removeChild(component.$el)
+            reject(error)
+          })
+          container.appendChild(component.$mount().$el)
+          component.open(params)
         })
       }
     }
 
-    box.close = () => {
-      events.$emit('close')
-    }
-
     Vue.prototype.$confirmationBox = box
-    Vue.confirmationBox = box
   },
 }
