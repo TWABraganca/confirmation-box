@@ -15,10 +15,9 @@
 </template>
 <script>
 export default {
-  name: 'App',
   methods: {
     async openConfirmationBox() {
-      let res = await this.$confirmationBox('xxx')
+      // let res = await this.$confirmationBox('xxx')
       console.log(res)
     },
   },

@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "node-sass": "^5.0.0",
     "vue": "^2.6.11",
     "vuetify": "^2.4.0"
   },
@@ -24,12 +23,12 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.7",
     "babel-eslint": "^10.1.0",
-    "bili": "^3.4.2",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "rollup-plugin-vue": "^4.6.1",
+    "bili": "^4.1.0",
+    "eslint": "^7.21.0",
+    "eslint-plugin-vue": "^7.7.0",
+    "rollup-plugin-vue": "^5.1.1",
     "sass": "^1.32.0",
-    "sass-loader": "^10.0.0",
+    "sass-loader": "^11.0.1",
     "vue-cli-plugin-vuetify": "~2.2.2",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.0"
