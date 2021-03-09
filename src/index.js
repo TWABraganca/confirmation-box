@@ -43,9 +43,3 @@ export default {
     Vue.prototype.$confirmationBox = box
   },
 }
-
-// module.exports = install
-
-// if (typeof window !== 'undefined' && window.Vue) {
-//   Vue.use({ install })
-// }
