@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "serve": "vue-cli-service serve example/main.js",
-    "build": "bili"
+    "build": "bili --bundle-node-modules"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -26,7 +26,6 @@
     "bili": "^4.1.0",
     "eslint": "^7.21.0",
     "eslint-plugin-vue": "^7.7.0",
-    "rollup-plugin-vue": "^5.1.1",
     "sass": "^1.32.0",
     "sass-loader": "^11.0.1",
     "vue-cli-plugin-vuetify": "~2.2.2",

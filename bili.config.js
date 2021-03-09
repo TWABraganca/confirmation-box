@@ -7,6 +7,6 @@ module.exports = {
     moduleName: 'confirmationBox',
     extractCSS: false,
     dir: 'lib',
-    format: 'umd-min',
+    format: 'cjs',
   },
 }
