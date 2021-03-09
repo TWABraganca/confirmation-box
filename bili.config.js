@@ -1,11 +1,11 @@
 module.exports = {
   input: 'src/index.js',
   plugins: {
-    vue: true,
+    vue: { css: true },
   },
   output: {
     moduleName: 'confirmationBox',
-    extractCSS: false,
+    extractCSS: true,
     dir: 'lib',
     format: 'cjs',
   },
