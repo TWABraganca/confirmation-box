@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "author": "Prica",
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "./src/index.js",
   "files": [
-    "lib/*"
+    "src/*"
   ],
   "scripts": {
     "serve": "vue-cli-service serve example/main.js",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "rollup": "^2.41.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
@@ -22,15 +23,15 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.7",
     "babel-eslint": "^10.1.0",
-    "bili": "^4.1.0",
     "eslint": "^7.21.0",
     "eslint-plugin-vue": "^7.7.0",
+    "rollup-plugin-vue": "^6.0.0",
     "sass": "^1.32.0",
     "sass-loader": "^11.0.1",
     "vue-cli-plugin-vuetify": "~2.2.2",
     "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.7.0",
-    "vuetify": "^2.4.0"
+    "vuetify": "^2.4.0",
+    "vuetify-loader": "^1.7.0"
   },
   "browserslist": [
     "> 1%",
