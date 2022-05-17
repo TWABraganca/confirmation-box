@@ -11,7 +11,7 @@
           dialog.icon
         }}</v-icon>
         <h3 class="mt-2">{{ dialog.title }}</h3>
-        <span v-if="dialog.message">{{ dialog.message }}</span>
+        <span v-if="dialog.message" v-html="dialog.message"></span>
       </v-col>
     </v-row>
 

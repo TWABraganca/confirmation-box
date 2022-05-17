@@ -3,7 +3,7 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 
 // import ConfirmationBox from '../src/index.js'
-import ConfirmationBox from '../lib/index.umd.min.js'
+// import ConfirmationBox from '../lib/index.umd.min.js'
 
 // Vue.use(ConfirmationBox, vuetify, { clickOutside: { texto: 'a tua prima' } })
 
