@@ -1,6 +1,7 @@
 import ConfirmationBox from './ConfirmationBox.vue'
+
 export default {
-  install(Vue, vuetify, options = {}) {
+  install(Vue, options = {}) {
     if (this.installed) {
       return
     }
@@ -8,7 +9,7 @@ export default {
 
     this.options = options || {}
 
-    const Ctor = Vue.extend(Object.assign({}, { vuetify }, ConfirmationBox))
+    const Ctor = Vue.extend(Object.assign({}, ConfirmationBox))
 
     const box = (params) => {
       const component = new Ctor(
