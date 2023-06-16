@@ -32,15 +32,13 @@
     </v-row>
   </v-dialog> -->
   <div
-    class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"
+    class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center"
     id="my-modal"
   >
-    <div
-      class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white"
-    >
-      <div class="mt-3 text-center">
+    <div class="confirmation-box relative w-96 shadow-lg">
+      <div class="p-5 text-center flex flex-col">
         <div
-          class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100"
+          class="confirmation-icon mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100"
         >
           <svg
             class="h-6 w-6 text-green-600"
@@ -57,21 +55,22 @@
             ></path>
           </svg>
         </div>
-        <h3 class="text-lg leading-6 font-medium text-gray-900">Successful!</h3>
-        <div class="mt-2 px-7 py-3">
-          <p class="text-sm text-gray-500">
-            Account has been successfully registered!
-          </p>
+        <h3
+          class="confirmation-title text-lg leading-6 font-medium text-gray-900"
+        >
+          {{ dialog.title }}
+        </h3>
+        <div v-if="dialog.message" class="confirmation-text mt-2 px-7 py-3">
+          <span class="text-sm text-gray-500" v-html="dialog.message" />
         </div>
-        <div class="items-center px-4 py-3">
-          <button
-            id="ok-btn"
-            class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
-            @click="close"
-          >
-            OK
-          </button>
-        </div>
+      </div>
+      <div class="items-center confirmation-button rounded-b-[inherit]">
+        <button
+          class="px-4 py-2 bg-green-500 text-white text-base font-medium w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
+          @click="close"
+        >
+          OK
+        </button>
       </div>
     </div>
   </div>
@@ -174,20 +173,25 @@ export default {
 @tailwind utilities;
 
 .confirmation-box {
-  width: 350px !important;
+  font-family: inherit;
+}
+
+.confirmation-box {
+  width: 350px;
   background-color: white;
-  border-radius: 25px !important;
+  border-radius: 25px;
 }
-.confirmation-box .v-icon::after {
-  height: unset !important;
-}
-.confirmation-button .v-btn {
-  border-radius: 0px;
+
+.confirmation-button button {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.confirmation-button:last-of-type .v-btn {
+.confirmation-button:first-of-type button {
+  border-bottom-left-radius: inherit;
+}
+.confirmation-button:last-of-type button {
+  border-bottom-right-radius: inherit;
   border-right: none;
 }
 </style>
