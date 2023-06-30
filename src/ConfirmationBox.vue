@@ -56,20 +56,23 @@
           </svg>
         </div>
         <h3
-          class="confirmation-title text-lg leading-6 font-medium text-gray-900"
+          class="confirmation-title text-lg leading-6 font-medium text-gray-900 mt-3"
         >
           {{ dialog.title }}
         </h3>
-        <div v-if="dialog.message" class="confirmation-text mt-2 px-7 py-3">
+        <div v-if="dialog.message" class="confirmation-text mt-1 p-1">
           <span class="text-sm text-gray-500" v-html="dialog.message" />
         </div>
       </div>
-      <div class="items-center confirmation-button rounded-b-[inherit]">
+      <div class="rounded-[inherit] flex">
         <button
-          class="px-4 py-2 bg-green-500 text-white text-base font-medium w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
-          @click="close"
+          v-for="(button, index) in dialog.buttons"
+          :key="'button-confirmation-' + index"
+          class="confirmation-button px-4 py-2 text-base font-medium w-full shadow-sm"
+          :style="setColors(button.color)"
+          @click="handleClick(button.result)"
         >
-          OK
+          {{ button.text }}
         </button>
       </div>
     </div>
@@ -95,10 +98,13 @@ export default {
       type: [Boolean, String, Number, Object],
       default: false,
     },
+    theme: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
-      isShow: false,
       dialog: {
         title: this.title,
         color: this.color,
@@ -112,28 +118,31 @@ export default {
     }
   },
   mounted() {
-    window.onclick = this.clickOutsideNewFnc
+    window.addEventListener('click', this.clickOutsideFnc)
+  },
+  destroyed() {
+    window.removeEventListener('click', this.clickOutsideFnc)
   },
   methods: {
-    // NEW METHODS
-    newOpen() {
-      let modal = document.getElementById('my-modal')
-      console.log(modal)
-      modal.style.display = 'block'
-    },
-    close() {
-      let modal = document.getElementById('my-modal')
-      console.log(modal)
-      this.callback(true)
-    },
-    clickOutsideNewFnc() {
-      let modal = document.getElementById('my-modal')
-      console.log('teste')
-      if (event.target == modal) {
-        modal.style.display = 'none'
+    setColors(color) {
+      return {
+        backgroundColor: 'white',
+        color: color,
       }
     },
-    // OLDS METHODS
+    open(params) {
+      this.resetState()
+      Object.assign(this.dialog, params)
+    },
+    handleClick(res) {
+      this.callback(res)
+    },
+    clickOutsideFnc() {
+      let modal = document.getElementById('my-modal')
+      if (event.target == modal && this.dialog.close !== null) {
+        this.handleClick(this.dialog.close)
+      }
+    },
     setCallback(fn) {
       this.callback = fn
     },
@@ -150,20 +159,6 @@ export default {
         buttons: [{ text: 'Ok', result: true, color: 'primary' }],
       }
     },
-    clickOutsideFnc() {
-      if (this.dialog.close !== null) {
-        this.handleClick(this.dialog.close)
-      }
-    },
-    handleClick(res) {
-      this.isShow = false
-      this.callback(res)
-    },
-    open(params) {
-      this.resetState()
-      Object.assign(this.dialog, params)
-      this.isShow = true
-    },
   },
 }
 </script>
@@ -174,23 +169,22 @@ export default {
 
 .confirmation-box {
   font-family: inherit;
+  -webkit-user-select: none; /* Safari */
+  user-select: none;
 }
-
 .confirmation-box {
   width: 350px;
   background-color: white;
   border-radius: 25px;
 }
-
-.confirmation-button button {
+.confirmation-button {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
-
-.confirmation-button:first-of-type button {
+.confirmation-button:first-of-type {
   border-bottom-left-radius: inherit;
 }
-.confirmation-button:last-of-type button {
+.confirmation-button:last-of-type {
   border-bottom-right-radius: inherit;
   border-right: none;
 }

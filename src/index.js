@@ -29,10 +29,12 @@ export default {
         return new Promise((resolve, reject) => {
           component.setCallback((response) => {
             container.removeChild(component.$el)
+            component.$destroy()
             resolve(response)
           })
           component.setErrorCallback((error) => {
             container.removeChild(component.$el)
+            component.$destroy()
             reject(error)
           })
           container.appendChild(component.$mount().$el)
