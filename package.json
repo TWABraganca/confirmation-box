@@ -4,9 +4,9 @@
   "version": "1.0.1",
   "author": "Prica",
   "license": "MIT",
-  "main": "./src/index.js",
+  "main": "./lib/confirmation-box.umd.js",
   "files": [
-    "src/*"
+    "lib/*"
   ],
   "scripts": {
     "dev": "vite example/",

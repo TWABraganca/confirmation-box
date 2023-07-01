@@ -1,36 +1,4 @@
 <template>
-  <!-- <v-dialog
-    @click:outside="clickOutsideFnc()"
-    persistent
-    content-class="confirmation-box"
-    v-model="isShow"
-  >
-    <v-row class="ma-0 mt-2 justify-center">
-      <v-col class="pa-0 text-center">
-        <v-icon :color="dialog.color ? dialog.color : 'default'" size="150">{{
-          dialog.icon
-        }}</v-icon>
-        <h3 class="mt-2">{{ dialog.title }}</h3>
-        <span v-if="dialog.message" v-html="dialog.message"></span>
-      </v-col>
-    </v-row>
-
-    <v-row class="ma-0 mt-4 justify-center">
-      <v-col
-        v-for="(button, index) in dialog.buttons"
-        :key="'button-confirmation-' + index"
-        class="pa-0 confirmation-button"
-      >
-        <v-btn
-          :color="button.color"
-          text
-          width="100%"
-          @click="handleClick(button.result)"
-          >{{ button.text }}</v-btn
-        >
-      </v-col>
-    </v-row>
-  </v-dialog> -->
   <div
     class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center"
     id="my-modal"
@@ -38,25 +6,14 @@
     <div class="confirmation-box relative w-96 shadow-lg">
       <div class="p-5 text-center flex flex-col">
         <div
-          class="confirmation-icon mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100"
+          v-if="dialog.icon"
+          class="confirmation-icon mx-auto flex items-center justify-center rounded-full"
+          :style="setIconStyle(dialog.color)"
         >
-          <svg
-            class="h-6 w-6 text-green-600"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M5 13l4 4L19 7"
-            ></path>
-          </svg>
+          <i :class="dialog.icon" />
         </div>
         <h3
-          class="confirmation-title text-lg leading-6 font-medium text-gray-900 mt-3"
+          class="confirmation-title text-lg leading-6 font-medium text-gray-900 mt-4"
         >
           {{ dialog.title }}
         </h3>
@@ -71,6 +28,8 @@
           class="confirmation-button px-4 py-2 text-base font-medium w-full shadow-sm"
           :style="setColors(button.color)"
           @click="handleClick(button.result)"
+          @mouseover="swapHoverEffect($event, button.color)"
+          @mouseleave="swapHoverEffect($event)"
         >
           {{ button.text }}
         </button>
@@ -83,8 +42,12 @@ export default {
   name: 'ConfirmationBox',
   props: {
     icon: {
-      type: String,
-      default: 'mdi-help-circle-outline',
+      type: [Boolean, String],
+      default: false,
+    },
+    iconSize: {
+      type: Number,
+      default: 12,
     },
     color: {
       type: String,
@@ -109,6 +72,7 @@ export default {
         title: this.title,
         color: this.color,
         icon: this.icon,
+        iconSize: this.iconSize,
         message: '',
         close: this.clickOutside,
         buttons: [{ text: 'Ok', result: true, color: 'primary' }],
@@ -124,11 +88,43 @@ export default {
     window.removeEventListener('click', this.clickOutsideFnc)
   },
   methods: {
+    swapHoverEffect(e, color = 'transparent') {
+      const element = e.target
+      if (color !== 'transparent') {
+        const colorRGB = this.getRGBColor(this.theme[color] || color)
+        element.style.backgroundColor = `rgba(${colorRGB[0]}, ${colorRGB[1]}, ${colorRGB[2]}, 0.1)`
+      } else {
+        element.style.backgroundColor = color
+      }
+    },
+    setIconStyle(color) {
+      const colorRGB = this.getRGBColor(color)
+      const factor =
+        colorRGB[0] * 0.299 + colorRGB[1] * 0.587 + colorRGB[2] * 0.114
+
+      return {
+        backgroundColor: this.theme[color] || color,
+        color: factor > 186 ? 'black' : 'white',
+        width: this.dialog.iconSize * 1.8 + 'px',
+        height: this.dialog.iconSize * 1.8 + 'px',
+        fontSize: this.dialog.iconSize + 'px',
+      }
+    },
     setColors(color) {
       return {
-        backgroundColor: 'white',
-        color: color,
+        color: this.theme[color] || color,
       }
+    },
+    getRGBColor(color) {
+      const canvas = document.createElement('canvas')
+      canvas.width = 1
+      canvas.height = 1
+
+      const context = canvas.getContext('2d')
+      context.fillStyle = this.theme[color] || color
+      context.fillRect(0, 0, 1, 1)
+
+      return context.getImageData(0, 0, 1, 1).data
     },
     open(params) {
       this.resetState()
@@ -154,6 +150,7 @@ export default {
         title: this.title,
         color: this.color,
         icon: this.icon,
+        iconSize: this.iconSize,
         message: '',
         close: this.clickOutside,
         buttons: [{ text: 'Ok', result: true, color: 'primary' }],
